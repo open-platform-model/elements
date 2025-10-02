@@ -77,36 +77,33 @@ See [Element Catalog](element-catalog.md) for complete list.
 
 ### [Element Catalog](element-catalog.md)
 
-**Purpose**: Reference guide for all available elements
-**Audience**: Module developers, anyone using elements
-**Contains**:
-
-- Implementation status (✅ implemented, 📋 planned)
-- Complete element tables organized by category
-- Configuration examples
-- Platform mappings (OPM → Kubernetes, Docker, etc.)
+- **Purpose**: Reference guide for all available elements
+- **Audience**: Module developers, anyone using elements
+- **Contains**:
+  - Implementation status (✅ implemented, 📋 planned)
+  - Complete element tables organized by category
+  - Configuration examples
+  - Platform mappings (OPM → Kubernetes, Docker, etc.)
 
 ### [Element Patterns](element-patterns.md)
 
-**Purpose**: Common composition patterns and best practices
-**Audience**: Module developers learning effective patterns
-**Contains**:
-
-- Component composition examples
-- Multi-element patterns
-- Anti-patterns to avoid
-- Real-world usage examples
+- **Purpose**: Common composition patterns and best practices
+- **Audience**: Module developers learning effective patterns
+- **Contains**:
+  - Component composition examples
+  - Multi-element patterns
+  - Anti-patterns to avoid
+  - Real-world usage examples
 
 ### [Creating Elements](creating-elements.md)
 
-**Purpose**: Guide for adding new elements to OPM
-**Audience**: Element authors, core contributors
-**Contains**:
-
-- Step-by-step element creation process
-- Element design guidelines
-- Schema definition patterns
-- Registration process
+- **Purpose**: Guide for adding new elements to OPM
+- **Audience**: Element authors, core contributors
+- **Contains**:
+  - Step-by-step element creation process
+  - Element design guidelines
+  - Schema definition patterns
+  - Registration process
 
 ## Architecture Documentation
 
