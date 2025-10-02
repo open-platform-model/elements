@@ -67,7 +67,7 @@ Basic workload building blocks implemented by the platform.
 
 | Status | Element | Kind | Target | Description | WorkloadType | Configuration |
 |--------|---------|------|--------|-------------|--------------|---------------|
-| ✅ | **Container** | primitive | component | Base container definition - flexible workload primitive | stateless \| stateful \| daemonSet \| task \| scheduled-task | `container: #ContainerSpec` |
+| ✅ | **Container** | primitive | component | Base container definition - flexible workload primitive | stateless \| stateful \| daemon \| task \| scheduled-task | `container: #ContainerSpec` |
 | 📋 | **Function** | primitive | component | Serverless function workload | function | `function: #FunctionSpec` |
 
 **Container** is the foundational workload primitive. All workload composites build on Container.
@@ -80,7 +80,7 @@ Pre-composed workload patterns that combine Container with appropriate modifiers
 |--------|---------|------|--------|-------------|----------|--------------|---------------|
 | ✅ | **StatelessWorkload** | composite | component | Horizontally scalable workload with no stable identity requirement | Container, Replicas, RestartPolicy, UpdateStrategy, HealthCheck, SidecarContainers, InitContainers | stateless | `stateless: #StatelessSpec` |
 | ✅ | **StatefulWorkload** | composite | component | Workload requiring stable identity, persistent storage, and ordered lifecycle | Container, Volume, Replicas, RestartPolicy, UpdateStrategy, HealthCheck, SidecarContainers, InitContainers | stateful | `stateful: #StatefulWorkloadSpec` |
-| ✅ | **DaemonSetWorkload** | composite | component | Node-level workload running one instance per node | Container, RestartPolicy, UpdateStrategy, HealthCheck, SidecarContainers, InitContainers | daemonSet | `daemonSet: #DaemonSetSpec` |
+| ✅ | **DaemonWorkload** | composite | component | Node-level workload running one instance per node | Container, RestartPolicy, UpdateStrategy, HealthCheck, SidecarContainers, InitContainers | daemon | `daemon: #DaemonSpec` |
 | ✅ | **TaskWorkload** | composite | component | Run-to-completion workload that executes and exits | Container, RestartPolicy, SidecarContainers, InitContainers | task | `task: #TaskWorkloadSpec` |
 | ✅ | **ScheduledTaskWorkload** | composite | component | Recurring task triggered on a schedule | Container, RestartPolicy, SidecarContainers, InitContainers | scheduled-task | `scheduledTask: #ScheduledTaskWorkloadSpec` |
 
@@ -114,7 +114,7 @@ Define workload lifecycle, health, and runtime behavior.
 |--------|---------|------|--------|----------|-------------|---------------|
 | ✅ | **HealthCheck** | modifier | component | Container, All Workload Composites | Liveness, readiness, and startup probes | `healthCheck: #HealthCheckSpec` |
 | ✅ | **RestartPolicy** | modifier | component | Container, All Workload Composites | Pod restart behavior (Always, OnFailure, Never) | `restartPolicy: #RestartPolicySpec` |
-| ✅ | **UpdateStrategy** | modifier | component | Container, StatelessWorkload, StatefulWorkload, DaemonSetWorkload | Rollout and update strategy | `updateStrategy: #UpdateStrategySpec` |
+| ✅ | **UpdateStrategy** | modifier | component | Container, StatelessWorkload, StatefulWorkload, DaemonWorkload | Rollout and update strategy | `updateStrategy: #UpdateStrategySpec` |
 | 📋 | **Resources** | modifier | component | Container, All Workload Composites | CPU and memory requests/limits | `resources: #ResourceRequirements` |
 | 📋 | **LifecycleHooks** | modifier | component | Container, All Workload Composites | Pre-stop and post-start hooks | `lifecycle: #LifecycleSpec` |
 | 📋 | **Scheduling** | modifier | component | Container, All Workload Composites | Node affinity, anti-affinity, tolerations | `scheduling: #SchedulingSpec` |
@@ -260,7 +260,7 @@ How OPM elements map to platform-specific resources.
 |---------------|---------------------|-------|
 | StatelessWorkload | Deployment | Horizontally scalable pods |
 | StatefulWorkload | StatefulSet | Pods with stable identity and storage |
-| DaemonSetWorkload | DaemonSet | One pod per node |
+| DaemonWorkload | Daemon | One pod per node |
 | TaskWorkload | Job | Run-to-completion workload |
 | ScheduledTaskWorkload | CronJob | Scheduled recurring jobs |
 | SimpleDatabase | StatefulSet + PVC + Secret | Complete database pattern |
@@ -284,7 +284,7 @@ How OPM elements map to platform-specific resources.
 | InitContainers | `spec.template.spec.initContainers` | Pre-start containers |
 | EphemeralContainers | `spec.template.spec.ephemeralContainers` | Debug containers |
 | Replicas | `spec.replicas` | Deployment, StatefulSet |
-| UpdateStrategy | `spec.strategy` or `spec.updateStrategy` | Deployment, StatefulSet, DaemonSet |
+| UpdateStrategy | `spec.strategy` or `spec.updateStrategy` | Deployment, StatefulSet, Daemon |
 | HealthCheck | `containers[*].livenessProbe`, `readinessProbe`, `startupProbe` | Pod spec |
 | RestartPolicy | `spec.template.spec.restartPolicy` | Pod spec |
 | Resources | `containers[*].resources` | Pod spec |
@@ -335,7 +335,7 @@ How OPM elements map to platform-specific resources.
 
 - **Primitives** (7): Container, Function, Volume, ConfigMap, Secret, ProjectedVolume, NetworkScope, HTTPRoute, ServiceMesh
 - **Modifiers** (30+): Replicas, HealthCheck, Expose, PodSecurity, etc.
-- **Composites** (6): StatelessWorkload, StatefulWorkload, DaemonSetWorkload, TaskWorkload, ScheduledTaskWorkload, SimpleDatabase
+- **Composites** (6): StatelessWorkload, StatefulWorkload, DaemonWorkload, TaskWorkload, ScheduledTaskWorkload, SimpleDatabase
 
 ### By Workload Type Compatibility
 

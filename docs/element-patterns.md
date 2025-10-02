@@ -333,9 +333,9 @@ import (
 
 components: {
     nodeExporter: {
-        workload.#DaemonSetWorkload
+        workload.#DaemonWorkload
 
-        daemonSet: {
+        daemon: {
             container: {
                 image: "prom/node-exporter:latest"
                 ports: metrics: {targetPort: 9100}
@@ -737,20 +737,20 @@ valid: {
 }
 ```
 
-### ❌ Anti-Pattern: Replicas on DaemonSet
+### ❌ Anti-Pattern: Replicas on Daemon
 
-**Problem**: DaemonSets run one pod per node, can't set replica count
+**Problem**: Daemons run one pod per node, can't set replica count
 
 ```cue
 // INVALID - Don't do this!
 invalid: {
-    workload.#DaemonSetWorkload
+    workload.#DaemonWorkload
 
-    daemonSet: {
+    daemon: {
         container: {image: "node-exporter:latest"}
     }
 
-    replicas: {count: 3}  // ERROR: DaemonSets don't use replicas
+    replicas: {count: 3}  // ERROR: Daemons don't use replicas
 }
 ```
 
@@ -759,9 +759,9 @@ invalid: {
 ```cue
 // CORRECT
 valid: {
-    workload.#DaemonSetWorkload
+    workload.#DaemonWorkload
 
-    daemonSet: {
+    daemon: {
         container: {image: "node-exporter:latest"}
     }
     // No replicas - runs on all nodes automatically

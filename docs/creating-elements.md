@@ -197,7 +197,7 @@ import (
         "core.opm.dev/v1alpha1.Container",
         "core.opm.dev/v1alpha1.StatelessWorkload",
         "core.opm.dev/v1alpha1.StatefulWorkload",
-        "core.opm.dev/v1alpha1.DaemonSetWorkload",
+        "core.opm.dev/v1alpha1.DaemonWorkload",
         "core.opm.dev/v1alpha1.TaskWorkload",
         "core.opm.dev/v1alpha1.ScheduledTaskWorkload"
     ]
@@ -735,7 +735,7 @@ Here's a complete example creating a `Resources` modifier:
         "core.opm.dev/v1alpha1.Container",
         "core.opm.dev/v1alpha1.StatelessWorkload",
         "core.opm.dev/v1alpha1.StatefulWorkload",
-        "core.opm.dev/v1alpha1.DaemonSetWorkload",
+        "core.opm.dev/v1alpha1.DaemonWorkload",
         "core.opm.dev/v1alpha1.TaskWorkload",
         "core.opm.dev/v1alpha1.ScheduledTaskWorkload"
     ]

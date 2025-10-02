@@ -16,11 +16,6 @@ Elements are the atomic building blocks of OPM. Like LEGO blocks, primitive elem
 
 **Key Principle**: Everything is an element.
 
-### Element Types
-
-- **Traits**: Behavioral capabilities (Container, Replicas, HealthCheck)
-- **Resources**: Infrastructure primitives (Volume, ConfigMap, Secret)
-
 ### Element Kinds
 
 - **Primitive**: Basic building blocks (Container, Volume)
@@ -35,7 +30,9 @@ Elements are the atomic building blocks of OPM. Like LEGO blocks, primitive elem
 Elements compose together in components:
 
 ```cue
-import elements "github.com/open-platform-model/core/elements"
+import (
+    elements "github.com/open-platform-model/core/elements"
+)
 
 components: {
     web: {
@@ -61,11 +58,13 @@ components: {
 ### Finding Elements
 
 **By Category**:
+
 - **Workload**: Container, StatelessWorkload, StatefulWorkload, Replicas, HealthCheck
 - **Data**: Volume, ConfigMap, Secret
 - **Connectivity**: Expose, NetworkScope
 
 **By Use Case**:
+
 - Need a web service? → `StatelessWorkload`
 - Need a database? → `StatefulWorkload` or `SimpleDatabase`
 - Need to scale? → `Replicas`
@@ -77,27 +76,33 @@ See [Element Catalog](element-catalog.md) for complete list.
 ## Documentation Structure
 
 ### [Element Catalog](element-catalog.md)
+
 **Purpose**: Reference guide for all available elements
 **Audience**: Module developers, anyone using elements
 **Contains**:
+
 - Implementation status (✅ implemented, 📋 planned)
 - Complete element tables organized by category
 - Configuration examples
 - Platform mappings (OPM → Kubernetes, Docker, etc.)
 
 ### [Element Patterns](element-patterns.md)
+
 **Purpose**: Common composition patterns and best practices
 **Audience**: Module developers learning effective patterns
 **Contains**:
+
 - Component composition examples
 - Multi-element patterns
 - Anti-patterns to avoid
 - Real-world usage examples
 
 ### [Creating Elements](creating-elements.md)
+
 **Purpose**: Guide for adding new elements to OPM
 **Audience**: Element authors, core contributors
 **Contains**:
+
 - Step-by-step element creation process
 - Element design guidelines
 - Schema definition patterns
@@ -121,11 +126,13 @@ For deep understanding of how the element system works internally:
 **Current State** (Phase 1):
 
 ✅ **Implemented**:
+
 - Workload: Container (primitive), 8 modifiers, 5 composites
 - Data: Volume, ConfigMap, Secret (primitives), SimpleDatabase (composite)
 - Connectivity: NetworkScope (primitive), Expose (modifier)
 
 📋 **Planned** (Phases 2-3):
+
 - Additional security, governance, observability elements
 - Cloud provider-specific elements
 - Advanced networking elements
