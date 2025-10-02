@@ -25,11 +25,6 @@ This catalog provides a comprehensive reference of all available elements in OPM
 
 ## Understanding the Catalog
 
-### Element Types
-
-- **Trait** - Behavioral capabilities (how components behave)
-- **Resource** - Infrastructure primitives (what components need)
-
 ### Element Kinds
 
 - **Primitive** - Basic building blocks (Container, Volume, ConfigMap)

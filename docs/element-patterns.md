@@ -28,15 +28,15 @@ This guide demonstrates effective element composition patterns through practical
 
 ```cue
 import (
-    workload "github.com/open-platform-model/core/elements/workload"
-    conn "github.com/open-platform-model/core/elements/connectivity"
+    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/core/elements/core"
 )
 
 components: {
     web: {
         // Use StatelessWorkload composite for standard pattern
-        workload.#StatelessWorkload
-        conn.#Expose
+        elements.#StatelessWorkload
+        elements.#Expose
 
         stateless: {
             container: {
@@ -85,14 +85,14 @@ components: {
 
 ```cue
 import (
-    workload "github.com/open-platform-model/core/elements/workload"
-    conn "github.com/open-platform-model/core/elements/connectivity"
+    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/core/elements/core"
 )
 
 components: {
     api: {
-        workload.#StatelessWorkload
-        conn.#Expose
+        elements.#StatelessWorkload
+        elements.#Expose
 
         stateless: {
             container: {
@@ -157,14 +157,14 @@ components: {
 
 ```cue
 import (
-    workload "github.com/open-platform-model/core/elements/workload"
-    data "github.com/open-platform-model/core/elements/data"
+    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/core/elements/core"
 )
 
 components: {
     database: {
-        workload.#StatefulWorkload
-        data.#Secret
+        elements.#StatefulWorkload
+        elements.#Secret
 
         stateful: {
             container: {
@@ -234,14 +234,14 @@ components: {
 
 ```cue
 import (
-    workload "github.com/open-platform-model/core/elements/workload"
-    data "github.com/open-platform-model/core/elements/data"
+    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/core/elements/core"
 )
 
 components: {
     dataProcessor: {
-        workload.#TaskWorkload
-        data.#ConfigMap
+        elements.#TaskWorkload
+        elements.#ConfigMap
 
         task: {
             container: {
@@ -290,12 +290,12 @@ components: {
 
 ```cue
 import (
-    workload "github.com/open-platform-model/core/elements/workload"
+    elements "github.com/open-platform-model/core/elements/core"
 )
 
 components: {
     backup: {
-        workload.#ScheduledTaskWorkload
+        elements.#ScheduledTaskWorkload
 
         scheduledTask: {
             schedule: "0 2 * * *"  // 2 AM daily
@@ -328,12 +328,12 @@ components: {
 
 ```cue
 import (
-    workload "github.com/open-platform-model/core/elements/workload"
+    elements "github.com/open-platform-model/core/elements/core"
 )
 
 components: {
     nodeExporter: {
-        workload.#DaemonWorkload
+        elements.#DaemonWorkload
 
         daemon: {
             container: {
@@ -368,14 +368,14 @@ components: {
 
 ```cue
 import (
-    workload "github.com/open-platform-model/core/elements/workload"
-    data "github.com/open-platform-model/core/elements/data"
+    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/core/elements/core"
 )
 
 components: {
     app: {
-        workload.#StatelessWorkload
-        data.#ConfigMap
+        elements.#StatelessWorkload
+        elements.#ConfigMap
 
         stateless: {
             container: {
@@ -410,14 +410,14 @@ components: {
 
 ```cue
 import (
-    workload "github.com/open-platform-model/core/elements/workload"
-    data "github.com/open-platform-model/core/elements/data"
+    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/core/elements/core"
 )
 
 components: {
     writer: {
-        workload.#StatelessWorkload
-        data.#Volume
+        elements.#StatelessWorkload
+        elements.#Volume
 
         stateless: {
             container: {
@@ -437,7 +437,7 @@ components: {
     }
 
     reader: {
-        workload.#StatelessWorkload
+        elements.#StatelessWorkload
         // References the same volume by name
 
         stateless: {
@@ -473,14 +473,14 @@ components: {
 
 ```cue
 import (
-    workload "github.com/open-platform-model/core/elements/workload"
-    conn "github.com/open-platform-model/core/elements/connectivity"
+    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/core/elements/core"
 )
 
 components: {
     frontend: {
-        workload.#StatelessWorkload
-        conn.#Expose
+        elements.#StatelessWorkload
+        elements.#Expose
 
         stateless: {
             container: {
@@ -499,8 +499,8 @@ components: {
     }
 
     backend: {
-        workload.#StatelessWorkload
-        conn.#Expose
+        elements.#StatelessWorkload
+        elements.#Expose
 
         stateless: {
             container: {
@@ -529,12 +529,12 @@ components: {
 
 ```cue
 import (
-    conn "github.com/open-platform-model/core/elements/connectivity"
+    elements "github.com/open-platform-model/core/elements/core"
 )
 
 scopes: {
     "database-network": {
-        conn.#NetworkScope
+        elements.#NetworkScope
 
         networkScope: {
             ingress: {
@@ -568,17 +568,17 @@ scopes: {
 
 ```cue
 import (
-    workload "github.com/open-platform-model/core/elements/workload"
-    conn "github.com/open-platform-model/core/elements/connectivity"
-    data "github.com/open-platform-model/core/elements/data"
+    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/core/elements/core"
 )
 
 components: {
     // Frontend
     web: {
-        workload.#StatelessWorkload
-        conn.#Expose
-        data.#ConfigMap
+        elements.#StatelessWorkload
+        elements.#Expose
+        elements.#ConfigMap
 
         stateless: {
             container: {
@@ -607,9 +607,9 @@ components: {
 
     // Backend API
     api: {
-        workload.#StatelessWorkload
-        conn.#Expose
-        data.#Secret
+        elements.#StatelessWorkload
+        elements.#Expose
+        elements.#Secret
 
         stateless: {
             container: {
@@ -646,7 +646,7 @@ components: {
 
     // Database
     database: {
-        workload.#StatefulWorkload
+        elements.#StatefulWorkload
 
         stateful: {
             container: {
@@ -666,7 +666,7 @@ components: {
 
 scopes: {
     "db-network-isolation": {
-        conn.#NetworkScope
+        elements.#NetworkScope
         networkScope: {
             ingress: {allowFrom: ["api"]}
         }
@@ -694,8 +694,8 @@ scopes: {
 ```cue
 // INVALID - Don't do this!
 invalid: {
-    workload.#StatelessWorkload  // workloadType: "stateless"
-    workload.#StatefulWorkload   // workloadType: "stateful" - CONFLICT!
+    elements.#StatelessWorkload  // workloadType: "stateless"
+    elements.#StatefulWorkload   // workloadType: "stateful" - CONFLICT!
 }
 ```
 
@@ -704,12 +704,12 @@ invalid: {
 ```cue
 // CORRECT
 frontend: {
-    workload.#StatelessWorkload
+    elements.#StatelessWorkload
     // stateless configuration
 }
 
 database: {
-    workload.#StatefulWorkload
+    elements.#StatefulWorkload
     // stateful configuration
 }
 ```
@@ -721,8 +721,8 @@ database: {
 ```cue
 // INVALID - Don't do this!
 invalid: {
-    data.#Volume              // Just a resource
-    workload.#SidecarContainers   // ERROR: Needs workload
+    elements.#Volume              // Just a resource
+    elements.#SidecarContainers   // ERROR: Needs workload
 }
 ```
 
@@ -731,8 +731,8 @@ invalid: {
 ```cue
 // CORRECT
 valid: {
-    workload.#StatelessWorkload   // Provides workload
-    data.#Volume              // Resource
+    elements.#StatelessWorkload   // Provides workload
+    elements.#Volume              // Resource
     // Sidecar now works because StatelessWorkload includes it
 }
 ```
@@ -744,7 +744,7 @@ valid: {
 ```cue
 // INVALID - Don't do this!
 invalid: {
-    workload.#DaemonWorkload
+    elements.#DaemonWorkload
 
     daemon: {
         container: {image: "node-exporter:latest"}
@@ -759,7 +759,7 @@ invalid: {
 ```cue
 // CORRECT
 valid: {
-    workload.#DaemonWorkload
+    elements.#DaemonWorkload
 
     daemon: {
         container: {image: "node-exporter:latest"}
@@ -775,8 +775,8 @@ valid: {
 ```cue
 // INVALID - Don't do this!
 invalid: {
-    workload.#Container          // Primitive
-    workload.#StatelessWorkload  // Composite (includes Container)
+    elements.#Container          // Primitive
+    elements.#StatelessWorkload  // Composite (includes Container)
     // Redundant and causes workloadType conflict
 }
 ```
@@ -786,7 +786,7 @@ invalid: {
 ```cue
 // CORRECT - Use composite
 recommended: {
-    workload.#StatelessWorkload
+    elements.#StatelessWorkload
     stateless: {
         container: {image: "app:latest"}
     }
@@ -796,9 +796,9 @@ recommended: {
 
 // CORRECT - Use primitive with modifiers
 advanced: {
-    workload.#Container
-    workload.#Replicas
-    workload.#HealthCheck
+    elements.#Container
+    elements.#Replicas
+    elements.#HealthCheck
 
     container: {image: "app:latest"}
     replicas: {count: 3}
@@ -813,7 +813,7 @@ advanced: {
 ```cue
 // AVOID - Don't do this in production!
 database: {
-    workload.#StatefulWorkload
+    elements.#StatefulWorkload
 
     stateful: {
         container: {
@@ -830,8 +830,8 @@ database: {
 ```cue
 // CORRECT
 database: {
-    workload.#StatefulWorkload
-    data.#Secret
+    elements.#StatefulWorkload
+    elements.#Secret
 
     stateful: {
         container: {

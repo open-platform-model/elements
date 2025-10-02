@@ -37,20 +37,18 @@ This guide walks through the complete process of creating a new element, from de
 
 ### Element Creation Flow
 
-```
+```shell
 1. Design Element
    ↓
-2. Define Schema (in schema/)
+2. Create Element File with Co-located Schema (in elements/core/)
    ↓
-3. Create Element Definition (in elements/{category}/)
+3. Register Element (in elements/elements.cue)
    ↓
-4. Register Element (in elements/elements.cue)
+4. Validate with CUE
    ↓
-5. Validate with CUE
+5. Test in Example Component
    ↓
-6. Test in Example Component
-   ↓
-7. Document in Element Catalog
+6. Document in Element Catalog
 ```
 
 ### Core Principles
@@ -59,14 +57,19 @@ This guide walks through the complete process of creating a new element, from de
 
 **File Organization**:
 
-- **Schema definitions** → `core/schema/{category}.cue`
-- **Element definitions** → `core/elements/{category}/{type}.cue`
+- **Element files** → `core/elements/core/{category}_{kind}_{name}.cue`
 - **Element registry** → `core/elements/elements.cue` (MAIN ENTRY POINT)
+
+**File Naming Convention**: `{category}_{kind}_{name}.cue`
+
+- Examples: `workload_primitive_container.cue`, `workload_modifier_replicas.cue`, `data_composite_simple_database.cue`
 
 **Why This Structure**:
 
-- Prevents circular imports (schemas in separate package)
-- Clear categorization (workload, data, connectivity, etc.)
+- Schemas co-located with elements (no circular imports)
+- Flat structure for easy discovery
+- Category-prefixed naming for clear organization
+- Unified `package core` for simple imports
 - Single source of truth (registry in elements.cue)
 
 ---
@@ -118,14 +121,19 @@ Let's design a PodSecurity modifier:
 
 ## Step-by-Step Process
 
-### Step 1: Define Schema
+### Step 1: Create Element File with Co-located Schema
 
-Create schema in `core/schema/{category}.cue`:
+Create element file in `core/elements/core/security_modifier_pod_security.cue`:
 
 ```cue
-// core/schema/security.cue
-package schema
+// core/elements/core/security_modifier_pod_security.cue
+package core
 
+import (
+    opm "github.com/open-platform-model/core"
+)
+
+// Schema definition (co-located with element)
 #PodSecuritySpec: {
     // Run container as non-root user (default: secure)
     runAsNonRoot?: bool | *true
@@ -162,32 +170,9 @@ package schema
         localhostProfile?: string  // Only if type is Localhost
     }
 }
-```
 
-**Schema Best Practices**:
-
-- Use `?` for optional fields
-- **Provide sensible defaults with `| *value`** (strongly encouraged!)
-- Add constraints (`int & >0`, `string & =~"pattern"`)
-- Document fields with inline comments explaining defaults
-- Follow OpenAPIv3 compatibility
-- Default to secure, production-ready values
-
-### Step 2: Create Element Definition
-
-Create element in `core/elements/{category}/{type}.cue`:
-
-```cue
-// core/elements/security/modifier_traits.cue
-package security
-
-import (
-    core "github.com/open-platform-model/core"
-    schema "github.com/open-platform-model/core/schema"
-)
-
-// PodSecurity modifier - enhances workload security
-#PodSecurityElement: core.#Modifier & {
+// Element definition
+#PodSecurityElement: opm.#Modifier & {
     name: "PodSecurity"
     description: "Pod security context for running containers securely"
     target: ["component", "scope"]
@@ -206,27 +191,32 @@ import (
         "core.opm.dev/category": "security"
     }
 
-    schema: schema.#PodSecuritySpec
+    schema: #PodSecuritySpec
 }
 
-// Element with #ElementBase pattern for use in components
-#PodSecurity: core.#ElementBase & {
+// Usage pattern with #ElementBase
+#PodSecurity: opm.#ElementBase & {
     #elements: PodSecurity: #PodSecurityElement
 
-    podSecurity: schema.#PodSecuritySpec
+    podSecurity: #PodSecuritySpec
 }
 ```
 
-**Element Definition Best Practices**:
+**Best Practices**:
 
-- Always import `core` and `schema` packages
+- Use `?` for optional fields
+- **Provide sensible defaults with `| *value`** (strongly encouraged!)
+- Add constraints (`int & >0`, `string & =~"pattern"`)
+- Document fields with inline comments explaining defaults
+- Follow OpenAPIv3 compatibility
+- Default to secure, production-ready values
+- Co-locate schema and element in same file
 - Use descriptive `name` and `description`
 - Specify `target` accurately
 - For modifiers, explicitly list what they `modifies`
 - Add appropriate `labels` for categorization
-- Follow naming convention: `#PodSecurityElement` for definition, `#PodSecurity` for usage
 
-### Step 3: Register in Element Registry
+### Step 2: Register in Element Registry
 
 **CRITICAL STEP**: Add to `core/elements/elements.cue`:
 
@@ -236,12 +226,12 @@ package elements
 
 import (
     // ... existing imports
-    security "github.com/open-platform-model/core/elements/security"
+    core "github.com/open-platform-model/core/elements/core"
 )
 
 // Export element for use in components
-#PodSecurity: security.#PodSecurity
-#PodSecurityElement: security.#PodSecurityElement
+#PodSecurity: opm.#PodSecurity
+#PodSecurityElement: opm.#PodSecurityElement
 
 // Register in element registry
 #CoreElementRegistry: {
@@ -254,7 +244,7 @@ import (
 
 **Without this step, your element won't be accessible!**
 
-### Step 4: Validate with CUE
+### Step 3: Validate with CUE
 
 Always validate after creating an element:
 
@@ -272,7 +262,7 @@ cue vet --all-errors ./...
 cue export ./elements/elements.cue -e '#CoreElementRegistry' --out json | jq 'keys' | grep PodSecurity
 ```
 
-### Step 5: Test in Example Component
+### Step 4: Test in Example Component
 
 Create test component in `core/examples/`:
 
@@ -281,12 +271,12 @@ Create test component in `core/examples/`:
 package examples
 
 import (
-    core "github.com/open-platform-model/core"
+    opm "github.com/open-platform-model/core"
     elements "github.com/open-platform-model/core/elements"
 )
 
 // Test component using PodSecurity
-secureApp: core.#Component & {
+secureApp: opm.#Component & {
     #metadata: {
         #id: "secure-app"
     }
@@ -320,7 +310,7 @@ Validate the example:
 cue export ./examples/test_podsecurity.cue -e secureApp --out json
 ```
 
-### Step 6: Document in Element Catalog
+### Step 5: Document in Element Catalog
 
 Add to `elements/docs/element-catalog.md` in appropriate section:
 
@@ -336,50 +326,74 @@ Add to `elements/docs/element-catalog.md` in appropriate section:
 
 ## Element Patterns
 
-### Primitive Trait Pattern
+### Primitive Element Pattern
 
 ```cue
-// Element definition
-#MyPrimitiveElement: core.#Primitive & {
+package core
+import opm "github.com/open-platform-model/core"
+
+// Schema definition (co-located)
+#MyPrimitiveSpec: {
+    field?: string | *"default"
+}
+
+// Primitive element
+#MyPrimitiveElement: core.Primitive & {
     name: "MyPrimitive"
     description: "Description of what it does"
     target: ["component"]  // or ["scope"] or ["component", "scope"]
     workloadType: "stateless"  // Optional
     labels: {"core.opm.dev/category": "workload"}
-    schema: schema.#MyPrimitiveSpec
+    schema: #MyPrimitiveSpec
 }
 
 // Usage wrapper
-#MyPrimitive: core.#ElementBase & {
+#MyPrimitive: opm.#ElementBase & {
     #elements: MyPrimitive: #MyPrimitiveElement
-    myPrimitive: schema.#MyPrimitiveSpec
+    myPrimitive: #MyPrimitiveSpec
 }
 ```
 
-### Primitive Resource Pattern
+### Primitive Element Pattern (Map-based)
 
 ```cue
-// Element definition
-#MyResourceElement: core.#Primitive & {
+package core
+import opm "github.com/open-platform-model/core"
+
+// Schema definition (co-located)
+#MyResourceSpec: {
+    size?: string | *"10Gi"
+}
+
+// Primitive element (map-based for multiple instances)
+#MyResourceElement: opm.#Primitive & {
     name: "MyResource"
     description: "Description of resource"
     target: ["component"]
     labels: {"core.opm.dev/category": "data"}
-    schema: schema.#MyResourceSpec
+    schema: #MyResourceSpec
 }
 
-// Usage wrapper (often uses map for multiple instances)
-#MyResource: core.#ElementBase & {
+// Usage wrapper (map allows multiple named instances)
+#MyResource: opm.#ElementBase & {
     #elements: MyResource: #MyResourceElement
-    myResources: [string]: schema.#MyResourceSpec
+    myResources: [string]: #MyResourceSpec
 }
 ```
 
-### Modifier Trait Pattern
+### Modifier Element Pattern
 
 ```cue
-// Element definition
-#MyModifierElement: core.#Modifier & {
+package core
+import opm "github.com/open-platform-model/core"
+
+// Schema definition (co-located)
+#MyModifierSpec: {
+    enabled?: bool | *true
+}
+
+// Modifier element
+#MyModifierElement: opm.#Modifier & {
     name: "MyModifier"
     description: "Enhances other elements"
     target: ["component"]  // or ["scope"]
@@ -389,21 +403,30 @@ Add to `elements/docs/element-catalog.md` in appropriate section:
         // List all compatible elements
     ]
     labels: {"core.opm.dev/category": "workload"}
-    schema: schema.#MyModifierSpec
+    schema: #MyModifierSpec
 }
 
 // Usage wrapper
-#MyModifier: core.#ElementBase & {
+#MyModifier: opm.#ElementBase & {
     #elements: MyModifier: #MyModifierElement
-    myModifier: schema.#MyModifierSpec
+    myModifier: #MyModifierSpec
 }
 ```
 
-### Composite Trait Pattern
+### Composite Element Pattern
 
 ```cue
-// Element definition
-#MyCompositeElement: core.#Composite & {
+package core
+import opm "github.com/open-platform-model/core"
+
+// Schema definition (co-located)
+#MyCompositeSpec: {
+    container: #ContainerSpec
+    replicas?: #ReplicasSpec
+}
+
+// Composite element
+#MyCompositeElement: opm.#Composite & {
     name: "MyComposite"
     description: "Combines multiple elements"
     target: ["component"]
@@ -415,13 +438,13 @@ Add to `elements/docs/element-catalog.md` in appropriate section:
         // List all composed elements
     ]
     labels: {"core.opm.dev/category": "workload"}
-    schema: schema.#MyCompositeSpec
+    schema: #MyCompositeSpec
 }
 
 // Usage wrapper
-#MyComposite: core.#ElementBase & {
+#MyComposite: opm.#ElementBase & {
     #elements: MyComposite: #MyCompositeElement
-    myComposite: schema.#MyCompositeSpec
+    myComposite: #MyCompositeSpec
 }
 ```
 
@@ -435,10 +458,10 @@ Test element definition exports correctly:
 
 ```bash
 # Test element definition
-cue eval ./elements/{category}/{type}.cue -e '#MyElement'
+cue eval ./elements/core/{category}_{kind}_{name}.cue -e '#MyElement'
 
 # Test element exports
-cue export ./elements/{category}/{type}.cue -e '#MyElement' --out json
+cue export ./elements/core/{category}_{kind}_{name}.cue -e '#MyElement' --out json
 ```
 
 ### Integration Testing
@@ -555,7 +578,7 @@ updateStrategy?: {
 - ❌ **DON'T**: Default to platform-specific values (keep portable)
 - ❌ **DON'T**: Over-default - some fields should be explicitly chosen by users
 
-**Example: Good Default Strategy**
+**Example: Good Default Strategy**:
 
 ```cue
 // Security element with safe defaults
@@ -691,8 +714,8 @@ labels: {
 
 Before submitting a new element:
 
-- [ ] Schema defined in `core/schema/{category}.cue`
-- [ ] Element defined in `core/elements/{category}/{type}.cue`
+- [ ] Element file created in `core/elements/core/{category}_{kind}_{name}.cue`
+- [ ] Schema co-located in same file as element definition
 - [ ] Element registered in `core/elements/elements.cue`
 - [ ] `cue fmt ./...` runs successfully
 - [ ] `cue vet ./...` passes without errors
@@ -709,9 +732,16 @@ Before submitting a new element:
 
 Here's a complete example creating a `Resources` modifier:
 
-**1. Schema** (`core/schema/workload.cue`):
+**1. Create File** (`core/elements/core/workload_modifier_resources.cue`):
 
 ```cue
+package core
+
+import (
+    opm "github.com/open-platform-model/core"
+)
+
+// Schema definition (co-located)
 #ResourceRequirements: {
     requests?: {
         cpu?: string    // e.g., "100m", "1"
@@ -722,12 +752,9 @@ Here's a complete example creating a `Resources` modifier:
         memory?: string
     }
 }
-```
 
-**2. Element Definition** (`core/elements/workload/modifier_traits.cue`):
-
-```cue
-#ResourcesElement: core.#Modifier & {
+// Element definition
+#ResourcesElement: opm.#Modifier & {
     name: "Resources"
     description: "CPU and memory resource requests and limits"
     target: ["component"]
@@ -740,32 +767,40 @@ Here's a complete example creating a `Resources` modifier:
         "core.opm.dev/v1alpha1.ScheduledTaskWorkload"
     ]
     labels: {"core.opm.dev/category": "workload"}
-    schema: schema.#ResourceRequirements
+    schema: #ResourceRequirements
 }
 
-#Resources: core.#ElementBase & {
+// Usage pattern
+#Resources: opm.#ElementBase & {
     #elements: Resources: #ResourcesElement
-    resources: schema.#ResourceRequirements
+    resources: #ResourceRequirements
 }
 ```
 
-**3. Register** (`core/elements/elements.cue`):
+**2. Register** (`core/elements/elements.cue`):
 
 ```cue
-import workload "github.com/open-platform-model/core/elements/workload"
+import core "github.com/open-platform-model/core/elements/core"
 
-#Resources: workload.#Resources
-#ResourcesElement: workload.#ResourcesElement
+#Resources: opm.#Resources
+#ResourcesElement: opm.#ResourcesElement
 
 #CoreElementRegistry: {
     (#ResourcesElement.#fullyQualifiedName): #ResourcesElement
 }
 ```
 
-**4. Test** (`core/examples/test_resources.cue`):
+**3. Test** (`core/examples/test_resources.cue`):
 
 ```cue
-testApp: core.#Component & {
+package examples
+
+import (
+    opm "github.com/open-platform-model/core"
+    elements "github.com/open-platform-model/core/elements/core"
+)
+
+testApp: opm.#Component & {
     #metadata: #id: "test-app"
 
     elements.#StatelessWorkload
@@ -782,7 +817,7 @@ testApp: core.#Component & {
 }
 ```
 
-**5. Validate**:
+**4. Validate**:
 
 ```bash
 cue fmt ./...
