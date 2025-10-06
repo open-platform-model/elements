@@ -109,7 +109,7 @@ See [Element Catalog](element-catalog.md) for complete list.
 
 For deep understanding of how the element system works internally:
 
-- **[Element System Architecture](https://github.com/open-platform-model/core/docs/architecture/element-system.md)** - Type system, #ElementBase pattern, validation logic
+- **[Element System Architecture](https://github.com/open-platform-model/core/docs/architecture/element.md)** - Type system, #Component pattern, validation logic
 - **[Core Architecture](https://github.com/open-platform-model/core/docs/architecture/)** - Full architectural documentation
 
 ## Related Repositories

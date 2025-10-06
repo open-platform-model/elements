@@ -194,8 +194,8 @@ import (
     schema: #PodSecuritySpec
 }
 
-// Usage pattern with #ElementBase
-#PodSecurity: opm.#ElementBase & {
+// Usage pattern with #Component
+#PodSecurity: opm.#Component & {
     #elements: PodSecurity: #PodSecurityElement
 
     podSecurity: #PodSecuritySpec
@@ -348,7 +348,7 @@ import opm "github.com/open-platform-model/core"
 }
 
 // Usage wrapper
-#MyPrimitive: opm.#ElementBase & {
+#MyPrimitive: opm.#Component & {
     #elements: MyPrimitive: #MyPrimitiveElement
     myPrimitive: #MyPrimitiveSpec
 }
@@ -375,7 +375,7 @@ import opm "github.com/open-platform-model/core"
 }
 
 // Usage wrapper (map allows multiple named instances)
-#MyResource: opm.#ElementBase & {
+#MyResource: opm.#Component & {
     #elements: MyResource: #MyResourceElement
     myResources: [string]: #MyResourceSpec
 }
@@ -407,7 +407,7 @@ import opm "github.com/open-platform-model/core"
 }
 
 // Usage wrapper
-#MyModifier: opm.#ElementBase & {
+#MyModifier: opm.#Component & {
     #elements: MyModifier: #MyModifierElement
     myModifier: #MyModifierSpec
 }
@@ -442,7 +442,7 @@ import opm "github.com/open-platform-model/core"
 }
 
 // Usage wrapper
-#MyComposite: opm.#ElementBase & {
+#MyComposite: opm.#Component & {
     #elements: MyComposite: #MyCompositeElement
     myComposite: #MyCompositeSpec
 }
@@ -771,7 +771,7 @@ import (
 }
 
 // Usage pattern
-#Resources: opm.#ElementBase & {
+#Resources: opm.#Component & {
     #elements: Resources: #ResourcesElement
     resources: #ResourceRequirements
 }
