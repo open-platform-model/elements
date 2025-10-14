@@ -128,12 +128,12 @@ Basic data and storage building blocks.
 
 | Status | Element | Kind | Target | Description | Creates | Configuration |
 |--------|---------|------|--------|-------------|---------|---------------|
-| ✅ | **Volume** | primitive | component | Persistent storage volumes | PersistentVolumeClaim / Volume | `volumes: [string]: #VolumeSpec` |
+| ✅ | **Volume** | primitive | component | Persistent storage volumes | PersistentVolumeClaim / Volume | `volume: [string]: #VolumeSpec` |
 | ✅ | **ConfigMap** | primitive | component | Non-sensitive configuration data | ConfigMap | `configMaps: [string]: #ConfigMapSpec` |
 | ✅ | **Secret** | primitive | component | Sensitive data (credentials, tokens) | Secret | `secrets: [string]: #SecretSpec` |
 | 📋 | **ProjectedVolume** | primitive | component | Multi-source volumes (combine ConfigMaps, Secrets, etc.) | Projected Volume | `projected: #ProjectedVolumeSpec` |
 
-**Note**: Volume names are user-defined keys in the map (e.g., `volumes: {data: {...}, logs: {...}}`).
+**Note**: Volume names are user-defined keys in the map (e.g., `volume: {data: {...}, logs: {...}}`).
 
 ### Data Composites
 
@@ -299,7 +299,7 @@ How OPM elements map to platform-specific resources.
 | OPM Primitive | Docker Compose | Notes |
 |---------------|----------------|-------|
 | Container | `services.<name>` | Service definition |
-| Volume | `volumes:` | Named volume |
+| Volume | `volume:` | Named volume |
 | ConfigMap | `configs:` | Configuration file |
 | Secret | `secrets:` | Secret file |
 

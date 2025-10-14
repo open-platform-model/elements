@@ -425,7 +425,7 @@ components: {
             }
         }
 
-        volumes: {
+        volume: {
             shared: {
                 persistentClaim: {
                     size: "50Gi"
@@ -446,7 +446,7 @@ components: {
             }
         }
 
-        volumes: {
+        volume: {
             shared: {
                 persistentClaim: {
                     claimName: "writer-shared"  // Reference existing claim
