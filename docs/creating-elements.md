@@ -179,12 +179,12 @@ import (
 
     // Which elements this can modify
     modifies: [
-        "core.opm.dev/v0alpha1.Container",
-        "core.opm.dev/v0alpha1.StatelessWorkload",
-        "core.opm.dev/v0alpha1.StatefulWorkload",
-        "core.opm.dev/v0alpha1.DaemonWorkload",
-        "core.opm.dev/v0alpha1.TaskWorkload",
-        "core.opm.dev/v0alpha1.ScheduledTaskWorkload"
+        "core.opm.dev/v0.Container",
+        "core.opm.dev/v0.StatelessWorkload",
+        "core.opm.dev/v0.StatefulWorkload",
+        "core.opm.dev/v0.DaemonWorkload",
+        "core.opm.dev/v0.TaskWorkload",
+        "core.opm.dev/v0.ScheduledTaskWorkload"
     ]
 
     labels: {
@@ -398,8 +398,8 @@ import opm "github.com/open-platform-model/core"
     description: "Enhances other elements"
     target: ["component"]  // or ["scope"]
     modifies: [
-        "core.opm.dev/v0alpha1.Container",
-        "core.opm.dev/v0alpha1.StatelessWorkload"
+        "core.opm.dev/v0.Container",
+        "core.opm.dev/v0.StatelessWorkload"
         // List all compatible elements
     ]
     labels: {"core.opm.dev/category": "workload"}
@@ -488,7 +488,7 @@ cue export ./elements/elements.cue -e '#CoreElementRegistry' --out json | jq 'ke
 cue export ./elements/elements.cue -e '#CoreElementRegistry' --out json | jq 'length'
 
 # Get specific element
-cue export ./elements/elements.cue -e '#CoreElementRegistry."core.opm.dev/v0alpha1.MyElement"' --out json
+cue export ./elements/elements.cue -e '#CoreElementRegistry."core.opm.dev/v0.MyElement"' --out json
 ```
 
 ---
@@ -759,12 +759,12 @@ import (
     description: "CPU and memory resource requests and limits"
     target: ["component"]
     modifies: [
-        "core.opm.dev/v0alpha1.Container",
-        "core.opm.dev/v0alpha1.StatelessWorkload",
-        "core.opm.dev/v0alpha1.StatefulWorkload",
-        "core.opm.dev/v0alpha1.DaemonWorkload",
-        "core.opm.dev/v0alpha1.TaskWorkload",
-        "core.opm.dev/v0alpha1.ScheduledTaskWorkload"
+        "core.opm.dev/v0.Container",
+        "core.opm.dev/v0.StatelessWorkload",
+        "core.opm.dev/v0.StatefulWorkload",
+        "core.opm.dev/v0.DaemonWorkload",
+        "core.opm.dev/v0.TaskWorkload",
+        "core.opm.dev/v0.ScheduledTaskWorkload"
     ]
     labels: {"core.opm.dev/category": "workload"}
     schema: #ResourceRequirements
