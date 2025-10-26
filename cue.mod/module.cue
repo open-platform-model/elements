@@ -1,8 +1,12 @@
-module: "github.com/open-platform-model/elements@v1"
+module: "github.com/open-platform-model/elements@v0"
 language: {
-	version: "v0.14.1"
+	version: "v0.14.2"
 }
 source: {
-	kind: "self"
+	kind: "git"
 }
-
+deps: {
+	"github.com/open-platform-model/core@v0": {
+		v: "v0.1.0"
+	}
+}
