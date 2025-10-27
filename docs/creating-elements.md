@@ -226,7 +226,7 @@ package elements
 
 import (
     // ... existing imports
-    core "github.com/open-platform-model/core/elements/core"
+    core "github.com/open-platform-model/elements/core"
 )
 
 // Export element for use in components
@@ -780,7 +780,7 @@ import (
 **2. Register** (`core/elements/elements.cue`):
 
 ```cue
-import core "github.com/open-platform-model/core/elements/core"
+import core "github.com/open-platform-model/elements/core"
 
 #Resources: opm.#Resources
 #ResourcesElement: opm.#ResourcesElement
@@ -797,7 +797,7 @@ package examples
 
 import (
     opm "github.com/open-platform-model/core"
-    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/elements/core"
 )
 
 testApp: opm.#Component & {

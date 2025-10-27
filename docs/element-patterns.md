@@ -28,8 +28,8 @@ This guide demonstrates effective element composition patterns through practical
 
 ```cue
 import (
-    elements "github.com/open-platform-model/core/elements/core"
-    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/elements/core"
+    elements "github.com/open-platform-model/elements/core"
 )
 
 components: {
@@ -85,8 +85,8 @@ components: {
 
 ```cue
 import (
-    elements "github.com/open-platform-model/core/elements/core"
-    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/elements/core"
+    elements "github.com/open-platform-model/elements/core"
 )
 
 components: {
@@ -157,8 +157,8 @@ components: {
 
 ```cue
 import (
-    elements "github.com/open-platform-model/core/elements/core"
-    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/elements/core"
+    elements "github.com/open-platform-model/elements/core"
 )
 
 components: {
@@ -234,8 +234,8 @@ components: {
 
 ```cue
 import (
-    elements "github.com/open-platform-model/core/elements/core"
-    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/elements/core"
+    elements "github.com/open-platform-model/elements/core"
 )
 
 components: {
@@ -290,7 +290,7 @@ components: {
 
 ```cue
 import (
-    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/elements/core"
 )
 
 components: {
@@ -328,7 +328,7 @@ components: {
 
 ```cue
 import (
-    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/elements/core"
 )
 
 components: {
@@ -368,8 +368,8 @@ components: {
 
 ```cue
 import (
-    elements "github.com/open-platform-model/core/elements/core"
-    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/elements/core"
+    elements "github.com/open-platform-model/elements/core"
 )
 
 components: {
@@ -410,8 +410,8 @@ components: {
 
 ```cue
 import (
-    elements "github.com/open-platform-model/core/elements/core"
-    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/elements/core"
+    elements "github.com/open-platform-model/elements/core"
 )
 
 components: {
@@ -473,8 +473,8 @@ components: {
 
 ```cue
 import (
-    elements "github.com/open-platform-model/core/elements/core"
-    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/elements/core"
+    elements "github.com/open-platform-model/elements/core"
 )
 
 components: {
@@ -529,7 +529,7 @@ components: {
 
 ```cue
 import (
-    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/elements/core"
 )
 
 scopes: {
@@ -568,9 +568,9 @@ scopes: {
 
 ```cue
 import (
-    elements "github.com/open-platform-model/core/elements/core"
-    elements "github.com/open-platform-model/core/elements/core"
-    elements "github.com/open-platform-model/core/elements/core"
+    elements "github.com/open-platform-model/elements/core"
+    elements "github.com/open-platform-model/elements/core"
+    elements "github.com/open-platform-model/elements/core"
 )
 
 components: {
