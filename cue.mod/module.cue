@@ -7,6 +7,7 @@ source: {
 }
 deps: {
 	"github.com/open-platform-model/core@v0": {
-		v: "v0.1.0"
+		v:       "v0.1.0"
+		default: true
 	}
 }
