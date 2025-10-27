@@ -6,9 +6,7 @@ import (
 	opm "github.com/open-platform-model/core"
 )
 
-#ElementRegistry: opm.#Object & {
-	#kind: "ElementRegistry"
-
+#ElementRegistry: opm.#ElementRegistry & {
 	#metadata: {
 		name: "core-elements"
 		labels: {}
